@@ -1,5 +1,5 @@
 {
-  "name": "treihadwyl",
+  "name": "treihadwyl-core",
   "private": true,
   "version": "0.0.0",
   "description": "Treihadwyl, an old school dungeon crawler",
@@ -39,25 +39,13 @@
       "compatibility": "ie9"
     }
   },
-  "bundler": {
-    "paths": [
-      "src",
-      "node_modules",
-      "src/components"
-    ],
-    "extensions": [
-      ".js",
-      ".jsx"
-    ]
-  },
   "author": "Matt Styles",
   "repository": {
     "type": "git",
     "url": "git://github.com/treihadwyl/treihadwyl.git"
   },
-  "bugs": {
-    "url": "https://github.com/treihadwyl/treihadwyl/issues"
-  },
+  "reposirtory": "https://github.com/treihadwyl/treihadwyl/tree/master/packages/core"
+  "bugs": "https://github.com/treihadwyl/treihadwyl/issues",
   "homepage": "https://github.com/treihadwyl/treihadwyl",
   "license": "MIT",
   "dependencies": {
