@@ -5,19 +5,17 @@ import toMap from 'to-map'
 
 import logger from 'utils/logger'
 import appDispatcher from 'dispatchers/appDispatcher'
+import { StateError } from 'constants/err'
 import EVENTS from 'constants/events'
 import APP_STATES from 'constants/appStates'
 
 import StateFactory from 'stores/stateFactory'
 
-
 const _state = Symbol( 'state' )
-
 
 
 /**
  * Holds the centralised immutable state of the application
- * Renders are triggered only by mutations to the state object
  * @class
  */
 class AppState {
@@ -29,6 +27,7 @@ class AppState {
 
     /**
      * Holds the current state of the application
+     * Initially configured to the bootstrap state
      */
     this[ _state ] = APP_STATES.get( 'BOOTSTRAP' )
 
@@ -44,7 +43,7 @@ class AppState {
       // Convert to get function to execute on dispatch
       if ( dispatch.type === EVENTS.get( 'CHANGE_STATE' ) ) {
         if ( !this.factory[ dispatch.payload.requestedStateID ] ) {
-          throw new Error( 'Application state not recognised: ' + dispatch.payload.requestedStateID )
+          throw new StateError( 'Application state not recognised: ' + dispatch.payload.requestedStateID )
         }
 
         this.setState( dispatch.payload.requestedStateID )

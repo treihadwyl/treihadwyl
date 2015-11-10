@@ -20,35 +20,72 @@ class Loading extends React.Component {
     super( props )
   }
 
+  render() {
+    let progress = 'Loading'
+    for( let i = 0; i < this.props.progress; i++ ) {
+      progress += '.'
+    }
+
+    return <span className="BS-loading">{ progress }</span>
+  }
+}
+
+/**
+ * Bootstrap component
+ * Handles loading and updating the UI to show progress
+ * @stateful
+ */
+export default class Bootstrap extends React.Component {
+  /**
+   * @constructs
+   */
+  constructor( props ) {
+    super( props )
+
+    this.count = 5
+  }
+
   state = {
     loading: []
   }
 
+  componentWillMount() {
+    logger.info( 'Bootstrapping...' )
+  }
+
+  componentDidMount() {
+    this.load()
+  }
+
+  componentWillUnmount() {
+    logger.info( 'Bootstrap complete' )
+  }
+
   /**
-   * Do some fake loading, should probably be done in the Bootstrap component
+   * Currently loads the only texture and fires through a fake load
    */
-  async componentDidMount() {
-    let count = 5
-    let time = 750 / count
-    while( count-- ) {
+  async load() {
+    let time = 750 / this.count
+    while ( this.count-- ) {
       await wait( time + random( -time * .75, time * .75 ) )
 
       logger.info( 'Bootstrap event' )
 
-      this.setState({
-        state: this.state.loading.push( true )
+      this.setState( state => {
+        loading: state.loading.push( true )
       })
     }
 
-    // Do some actual loading
+    // Do some real loading
     resources.loadTextures()
       .then( this.onComplete )
   }
 
-  onComplete() {
-    logger.info( 'Bootstrap complete' )
-
-    // Change app state to the main frame
+  /**
+   * Triggers a state change when the load completes
+   */
+  onComplete = () => {
+    // Trigger to update change of state
     appDispatcher.dispatch({
       type: EVENTS.get( 'CHANGE_STATE' ),
       payload: {
@@ -58,32 +95,10 @@ class Loading extends React.Component {
   }
 
   render() {
-    let progress = 'Loading' + this.state.loading.reduce( prev => {
-      return prev + '.'
-    }, '' )
-
-    return <span className="BS-loading">{ progress }</span>
-  }
-}
-
-/**
- * Master component
- * Passes cursors down to children to actually do the work
- */
-export default class Bootstrap extends React.Component {
-  constructor( props ) {
-    super( props )
-  }
-
-  componentWillMount() {
-    logger.info( 'Bootstrapping...' )
-  }
-
-  render() {
     // Throw the load indicator an empty array to fill with dummy events for now
     return (
       <div className="BS u-fit">
-        <Loading />
+        <Loading progress={ this.state.loading.length } total={ this.count }/>
       </div>
     )
   }
