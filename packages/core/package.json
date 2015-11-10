@@ -40,11 +40,7 @@
     }
   },
   "author": "Matt Styles",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/treihadwyl/treihadwyl.git"
-  },
-  "reposirtory": "https://github.com/treihadwyl/treihadwyl/tree/master/packages/core"
+  "repository": "https://github.com/treihadwyl/treihadwyl/tree/master/packages/core",
   "bugs": "https://github.com/treihadwyl/treihadwyl/issues",
   "homepage": "https://github.com/treihadwyl/treihadwyl",
   "license": "MIT",
