@@ -6,11 +6,8 @@
   "author": "Matt Styles",
   "dependencies": {},
   "devDependencies": {
-    "babel": "^5.8.29",
-    "minimist": "^1.2.0"
   },
   "scripts": {
-    "test": "babel-node ./spec/index.js ./src/**/*.test.js"
   },
   "repository": {
     "type": "git",
