@@ -9,11 +9,41 @@ class Resources {
   constructor() {
     this.preloader = new Preloader()
     this.preloader.register( new PixiLoader() )
+
+    this.textures = new Map()
+  }
+
+  loadAtlases() {
+    return new Promise( ( resolve, reject ) => {
+      let toLoad = [ 'chara.json', 'greywall.json' ]
+      toLoad.forEach( resource => {
+        this.preloader.load({
+          id: resource,
+          resource: path.join( '/assets', resource ),
+          loader: 'pixiLoader'
+        })
+      })
+
+      var onLoad = function( resource ) {
+        // Pixi loader will return an object of textures from the sheet
+        var textures = resource.res.textures
+        Object.keys( textures ).forEach( textureID => {
+          this.textures.set( textureID.replace( /\.png$/, '' ), textures[ textureID ] )
+        })
+      }.bind( this )
+
+      var onComplete = function( resources ) {
+        this.preloader.off( 'load', onLoad )
+        return resolve( resources )
+      }.bind( this )
+
+      this.preloader.on( 'load', onLoad )
+      this.preloader.once( 'preload:complete', onComplete )
+    })
   }
 
   loadTextures() {
     return new Promise( ( resolve, reject ) => {
-      this.textures = new Map()
 
       let toLoad = [ 'circle4.png' ]
       toLoad.forEach( url => {

@@ -77,7 +77,7 @@ export default class Bootstrap extends React.Component {
     }
 
     // Do some real loading
-    resources.loadTextures()
+    resources.loadAtlases()
       .then( this.onComplete )
   }
 
